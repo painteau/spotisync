@@ -1,11 +1,11 @@
 # 🎵 SpotiSync - Spotify to YouTube Music Playlist Converter
 
-SpotiSync is a **Python-based CLI tool** that exports playlists from **Spotify** and imports them into **YouTube Music**.  
+SpotiSync is a **Python-based CLI tool** that exports playlists from **Spotify** and imports them into **YouTube Music**.
 This project is fully containerized on **GitHub Container Registry (GHCR)**.
 
 ---
 
-## 📌 Features
+## ⭐ Features
 - 🔍 **Browse & List**: View all your **Spotify playlists** directly from the CLI.
 - 🔄 **Playlist Transfer**: Export a **Spotify playlist** to **YouTube Music** seamlessly.
 - 🎵 **Name Consistency**: Maintain the **same playlist name** across both platforms.
@@ -13,31 +13,32 @@ This project is fully containerized on **GitHub Container Registry (GHCR)**.
   - **Overwrite Mode**: Delete and recreate existing playlists.
   - **Duplicate Mode**: Create a new playlist with a different name.
 - 📊 **Export Logs**: Generate detailed **CSV logs** for every transferred playlist.
-- 🛠️ **Automation**: Integrated **GitHub Actions** for automated **Docker builds** and updates.
+- 🛠 **Automation**: Integrated **GitHub Actions** for automated **Docker builds** and updates.
+
+---
+
+## 📌 Prerequisites
+
+### **Spotify API Keys**
+1. Visit the [Spotify Developer Dashboard](https://developer.spotify.com/dashboard).
+2. Create a **new application**.
+3. Obtain your **Client ID** and **Client Secret**.
+4. Set a **Redirect URI**:
+   ```
+   http://localhost:8888/callback
+   ```
+
+### **Google OAuth for YouTube**
+1. Open the [Google Cloud Console](https://console.cloud.google.com/apis/credentials).
+2. Create an **OAuth 2.0 Client ID**.
+3. Choose **"Desktop App"**.
+4. Download the `client_secret.json` file.
 
 ---
 
 ## 🛠 Setup & Installation
 
-### **1️⃣ Get Your API Keys**
-#### **Spotify API Keys**
-1. Visit the [Spotify Developer Dashboard](https://developer.spotify.com/dashboard).
-2. Create a **new application**.
-3. Obtain your **Client ID** and **Client Secret**.
-4. Set a **Redirect URI**:  
-   ```
-   http://localhost:8888/callback
-   ```
-
-#### **Google OAuth for YouTube**
-1. Open the [Google Cloud Console](https://console.cloud.google.com/apis/credentials).
-2. Create an **OAuth 2.0 Client ID**.
-3. Choose **”Desktop App”**.
-4. Download the `client_secret.json` file.
-
----
-
-### **2️⃣ Configure Environment Variables**
+### **1️⃣ Configure Environment Variables**
 Create a `.env` file in the project root:
 
 ```
@@ -50,21 +51,17 @@ SPOTIPY_REDIRECT_URI=http://localhost:8888/callback
 YOUTUBE_OAUTH_FILE=client_secret.json
 ```
 
----
-
-## 🚀 Running SpotiSync Locally
-
-### **1️⃣ Install Dependencies**
+### **2️⃣ Install Dependencies**
 ```bash
 pip install -r requirements.txt
 ```
 
-### **2️⃣ Start the CLI**
+### **3️⃣ Start the CLI**
 ```bash
 python script.py
 ```
 
-### **3️⃣ Available Commands**
+### **4️⃣ Available Commands**
 | Command                 | Description                                      |
 |-------------------------|------------------------------------------------|
 | `list`                 | List all Spotify playlists                     |
@@ -77,6 +74,24 @@ list
 export_youtube 3
 ```
 *(Exports the 3rd playlist from Spotify to YouTube Music.)*
+
+---
+
+## 🔨 Running SpotiSync Locally
+
+### **1️⃣ Clone the Repository**
+```bash
+git clone https://github.com/painteau/spotisync.git
+cd spotisync
+```
+
+### **2️⃣ Set Up Environment Variables**
+Follow the instructions in the **Setup & Installation** section.
+
+### **3️⃣ Run the Application**
+```bash
+python script.py
+```
 
 ---
 
@@ -93,10 +108,10 @@ docker pull ghcr.io/painteau/spotisync:latest
 
 ### **2️⃣ Run the Container**
 ```bash
-docker run --rm -it \
-  -v $(pwd)/.env:/app/.env \
-  -v $(pwd)/client_secret.json:/app/client_secret.json \
-  -p 8080:8080 \
+docker run -d --rm --label com.centurylinklabs.watchtower.enable=true \  
+  -v $(pwd)/.env:/app/.env \  
+  -v $(pwd)/client_secret.json:/app/client_secret.json \  
+  -p 8080:8080 \  
   ghcr.io/painteau/spotisync:latest
 ```
 
@@ -108,27 +123,17 @@ docker exec -it spotisync python script.py export_youtube 3
 
 ---
 
-## 📂 Logs & Exported Playlists
-- Export logs are saved as CSV files in the project directory.
-- Format:  
-  ```
-  <playlist_id>.csv
-  ```
-- Example:
-  ```
-  37i9dQZF1DXcBWIGoYBM5M.csv
-  ```
-
----
-
-## 🔄 GitHub Actions & Automated Builds
-
-The Docker image for **SpotiSync** is built **automatically** using **GitHub Actions**.  
-Each push to the `main` branch triggers a new **Docker image build and deployment** to GHCR.
+## ⚙ Configuration
+| Option                  | Description                                      |
+|-------------------------|------------------------------------------------|
+| `.env` File             | Stores API credentials                         |
+| `client_secret.json`    | OAuth credentials for YouTube                  |
+| `logs/*.csv`            | Exported playlist logs                         |
 
 ---
 
 ## 🔧 Troubleshooting
+
 ### **Authentication Issues**
 If authentication fails:
 1. **Verify your API keys** in `.env` and `client_secret.json`.
@@ -141,11 +146,18 @@ This project is licensed under the **MIT License**.
 
 ---
 
+## ⚠ Security Notice
+Ensure that you expose the Docker container securely and restrict access if necessary when deploying in a production environment.
+
+---
+
 ## 💡 Contributing
-1. Fork the repository  
-2. Create a new branch (`feature-xyz`)  
-3. Commit your changes  
-4. Open a Pull Request  
+1️⃣ **Fork** the repository on [GitHub](https://github.com/painteau/spotisync)  
+2️⃣ **Create a new branch** (`feature-branch`)  
+3️⃣ **Commit your changes**  
+4️⃣ **Push to your branch and create a pull request**  
+
+For major changes, please open an **issue** first to discuss the proposed modifications.
 
 ---
 
