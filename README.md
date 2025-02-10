@@ -1,7 +1,7 @@
 # 🎵 SpotiSync - Spotify to YouTube Music Playlist Converter
 
 SpotiSync is a **Python-based CLI tool** that exports playlists from **Spotify** and imports them into **YouTube Music**.  
-This project is fully containerized and **automatically built via GitHub Actions** for deployment on **GitHub Container Registry (GHCR)**.
+This project is fully containerized on **GitHub Container Registry (GHCR)**.
 
 —
 
