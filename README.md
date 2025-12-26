@@ -6,14 +6,20 @@ This project is fully containerized on **GitHub Container Registry (GHCR)**.
 ---
 
 ## ⭐ Features
-- 🔍 **Browse & List**: View all your **Spotify playlists** directly from the CLI.
+- 🔍 **Browse & List**: View all your **Spotify playlists** directly from the CLI with **full pagination support**.
 - 🔄 **Playlist Transfer**: Export a **Spotify playlist** to **YouTube Music** seamlessly.
 - 🎵 **Name Consistency**: Maintain the **same playlist name** across both platforms.
 - ⚡ **Conflict Handling**:
   - **Overwrite Mode**: Delete and recreate existing playlists.
   - **Duplicate Mode**: Create a new playlist with a different name.
-- 📊 **Export Logs**: Generate detailed **CSV logs** for every transferred playlist.
+- 📊 **Export Logs**: Generate detailed **CSV logs** for every transferred playlist (saved in `logs/` directory).
 - 🛠 **Automation**: Integrated **GitHub Actions** for automated **Docker builds** and updates.
+- 🚀 **Performance Optimized**:
+  - **Pagination**: Handle playlists of any size (50+ playlists, 100+ tracks).
+  - **Rate Limiting**: Built-in delays to prevent API quota errors.
+  - **Smart Caching**: Reduce redundant API calls with intelligent playlist caching.
+  - **Lazy Loading**: YouTube authentication only when needed.
+- 🛡️ **Robust Error Handling**: Comprehensive error management for all API operations.
 
 ---
 
@@ -138,11 +144,38 @@ docker exec -it spotisync python script.py export_youtube 3
 If authentication fails:
 1. **Verify your API keys** in `.env` and `client_secret.json`.
 2. Ensure **redirect URI** in Spotify is correctly configured.
+3. Delete `.cache` files if experiencing persistent authentication issues.
+
+### **Large Playlist Issues**
+If you have playlists with many tracks:
+- The tool now automatically handles pagination for playlists of any size.
+- Built-in rate limiting prevents YouTube API quota errors.
+
+### **API Quota Errors**
+If you encounter quota errors:
+- The tool includes automatic rate limiting (100ms delay between operations).
+- Consider spreading large transfers across multiple sessions.
+
+---
+
+## 📝 Recent Improvements
+
+### Version 1.1.0 (Latest)
+- ✅ Fixed missing `add_video_to_playlist()` function
+- ✅ Added full pagination support for all API calls
+- ✅ Implemented rate limiting to prevent quota errors
+- ✅ Added lazy loading for YouTube authentication
+- ✅ Improved error handling across all operations
+- ✅ Optimized performance with smart caching
+- ✅ CSV logs now saved to dedicated `logs/` directory
+- ✅ Enhanced console output with formatted tables
+
+See [CHANGELOG.md](CHANGELOG.md) for complete version history.
 
 ---
 
 ## 📜 License
-This project is licensed under the **MIT License**.
+This project is licensed under the **MIT License**. See [LICENSE](LICENSE) for details.
 
 ---
 
